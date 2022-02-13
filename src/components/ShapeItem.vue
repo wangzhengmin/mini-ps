@@ -4,6 +4,8 @@
 
 <script>
 import mxgraph from "@/mxgraph/index.js";
+
+import { toBase64 } from "js-base64";
 const { mxUtils } = mxgraph;
 export default {
   name: "shape-item",
@@ -51,12 +53,9 @@ export default {
 
       const image = new Image();
       const svgString = svg.outerHTML;
-      image.src = `data:image/svg+xml;base64,${btoa(
-        unescape(encodeURIComponent(svgString))
-      )}`;
+      image.src = `data:image/svg+xml;base64,${toBase64(svgString)}`;
 
       dragElt.innerHTML = image.outerHTML;
-      // console.log(`data:image/svg+xml;base64,${toBase64(svgString)}`);
       return dragElt;
     },
     // 创建handler用于处理图形
