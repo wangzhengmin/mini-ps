@@ -14,4 +14,6 @@ window.mxDefaultPopupMenu = mxgraph.mxDefaultPopupMenu;
 window.mxStylesheet = mxgraph.mxStylesheet;
 window.mxDefaultToolbar = mxgraph.mxDefaultToolbar;
 
+mxgraph.mxGraphHandler.prototype.maxLivePreview = 16;
+
 export default mxgraph;

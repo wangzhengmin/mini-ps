@@ -47,15 +47,7 @@ export default {
       dragElt.style.width = width + "px";
       dragElt.style.height = height + "px";
 
-      let svg = this.createThumb(width, height, dragElt);
-      svg.setAttribute("version", 1.1);
-      svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-
-      const image = new Image();
-      const svgString = svg.outerHTML;
-      image.src = `data:image/svg+xml;base64,${toBase64(svgString)}`;
-
-      dragElt.innerHTML = image.outerHTML;
+      this.createThumb(width, height, dragElt);
       return dragElt;
     },
     // 创建handler用于处理图形
@@ -97,8 +89,24 @@ export default {
       node.style.visibility = "";
       node.style.minWidth = "";
       node.style.minHeight = "";
-      parent.appendChild(node);
-      return node;
+      node.setAttribute("version", 1.1);
+      node.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+      // 拖拽时文字不可见
+      let texts = node.querySelectorAll("foreignObject");
+      let len = texts.length;
+      for (let i = 0; i < len; i++) {
+        texts[i].firstChild.setAttribute(
+          "xmlns",
+          "http://www.w3.org/1999/xhtml"
+        );
+      }
+
+      const image = new Image();
+      const svgString = node.outerHTML;
+      image.src = `data:image/svg+xml;base64,${toBase64(svgString)}`;
+
+      parent.appendChild(image);
     },
   },
 };
